@@ -85,3 +85,21 @@ docker commit my_container my_updated_image:latest
 After running this command, you can then use the new image in subsequent `docker run` commands or push it to a Docker registry if you need to share it with others.
 
 Keep in mind that this approach captures the current state of the container as a new image, but it might not be the most efficient or best practice for all scenarios. In a production environment, consider using Dockerfiles and rebuilding images to ensure reproducibility and maintainability.
+
+# Note about mount
+1. Changes made in mounted volumes are bidirectional—changes on the host reflect in the container and vice versa.
+
+2. Data in mounted volumes persists even if the container is stopped or restarted.
+
+3. Deleting the Docker container does not delete the data in mounted volumes.
+
+4. Deleting the host folders manually will remove the data, affecting both the host and the container.
+
+5.  You can mount multiple folders
+   ```bash
+   docker container run -it \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v /path/on/host:/path/in/container:rw \
+  -v /another/path/on/host:/another/path/in/container:ro \
+  image_name:tag
+```
